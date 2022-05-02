@@ -13,13 +13,16 @@ namespace SpeechBubbleServer
     {
         static readonly object _lock = new object();
         static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
+        static readonly int _PORT = 5000;
 
         static void Main(string[] args)
         {
             int count = 1;
 
-            TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
+            TcpListener ServerSocket = new TcpListener(IPAddress.Any, _PORT);
+            Console.WriteLine("Starting server");
             ServerSocket.Start();
+            Console.WriteLine($"Server has started and is listening to port {_PORT}");
 
             while (true)
             {
