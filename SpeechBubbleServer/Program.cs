@@ -20,6 +20,7 @@ namespace SpeechBubbleServer
             int count = 1;
 
             TcpListener ServerSocket = new TcpListener(IPAddress.Any, _PORT);
+
             Console.WriteLine("Starting server");
             ServerSocket.Start();
             Console.WriteLine($"Server has started and is listening to port {_PORT}");
@@ -67,7 +68,10 @@ namespace SpeechBubbleServer
                 Console.WriteLine(data);
             }
 
-            lock (_lock) list_clients.Remove(id);
+            lock (_lock)
+            {
+                list_clients.Remove(id);
+            }
 
             Console.WriteLine("Someone disconnected");
             client.Client.Shutdown(SocketShutdown.Both);
