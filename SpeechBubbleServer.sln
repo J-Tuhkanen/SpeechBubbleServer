@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechBubbleServer", "SpeechBubbleServer\SpeechBubbleServer.csproj", "{46CE2663-B985-4BD6-9C58-F770E33FF1F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechBubble.Server", "SpeechBubble.Server\SpeechBubble.Server.csproj", "{2E5D28BA-37E8-4359-ACC0-10FADB62EFD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechBubble.Client", "SpeechBubble.Client\SpeechBubble.Client.csproj", "{47C522A6-D915-4B85-BDA6-6FF5437EBC28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechBubble.Common", "SpeechBubble.Common\SpeechBubble.Common.csproj", "{C1E5830D-18D1-4680-9ADF-47EF8B4A2D92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechBubble.Client.CustomControls", "SpeechBubble.Client.CustomControls\SpeechBubble.Client.CustomControls.csproj", "{D1456BD4-B179-4250-9A57-603415EF40FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{46CE2663-B985-4BD6-9C58-F770E33FF1F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46CE2663-B985-4BD6-9C58-F770E33FF1F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46CE2663-B985-4BD6-9C58-F770E33FF1F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46CE2663-B985-4BD6-9C58-F770E33FF1F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E5D28BA-37E8-4359-ACC0-10FADB62EFD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E5D28BA-37E8-4359-ACC0-10FADB62EFD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E5D28BA-37E8-4359-ACC0-10FADB62EFD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E5D28BA-37E8-4359-ACC0-10FADB62EFD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47C522A6-D915-4B85-BDA6-6FF5437EBC28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47C522A6-D915-4B85-BDA6-6FF5437EBC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47C522A6-D915-4B85-BDA6-6FF5437EBC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47C522A6-D915-4B85-BDA6-6FF5437EBC28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E5830D-18D1-4680-9ADF-47EF8B4A2D92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E5830D-18D1-4680-9ADF-47EF8B4A2D92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E5830D-18D1-4680-9ADF-47EF8B4A2D92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E5830D-18D1-4680-9ADF-47EF8B4A2D92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1456BD4-B179-4250-9A57-603415EF40FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1456BD4-B179-4250-9A57-603415EF40FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1456BD4-B179-4250-9A57-603415EF40FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1456BD4-B179-4250-9A57-603415EF40FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

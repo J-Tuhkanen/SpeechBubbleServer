@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
+		<PackageReference Include="MaterialDesignThemes.MahApps" Version="0.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.5" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\SpeechBubble.Client.CustomControls\SpeechBubble.Client.CustomControls.csproj" />
+	  <ProjectReference Include="..\SpeechBubble.Common\SpeechBubble.Common.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="Services\" />
+	</ItemGroup>
+
+
+</Project>

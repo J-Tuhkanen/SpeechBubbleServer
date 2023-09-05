@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="SpeechBubble.Client.Views.ChatView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Models="clr-namespace:SpeechBubble.Client.Models"
+             xmlns:CustomControls="clr-namespace:SpeechBubble.Client.CustomControls;assembly=SpeechBubble.Client.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="MenuItem" BasedOn="{StaticResource MahApps.Styles.MenuItem}">
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel>
+            <Menu>
+                <MenuItem Header="Connection">
+                    <MenuItem Header="Disconnect" Command="{Binding DisconnectCommand}"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+
+        <ItemsControl ItemsSource="{Binding ChatMessages}" Grid.Row="1">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Resources>
+
+                <DataTemplate DataType="{x:Type Models:Notification}">
+                    <CustomControls:ChatNotificationControl
+                        NotificationBody="{Binding Text}"
+                        Background="#d6d2a5"
+                        Margin="5 1"
+                        Padding="15 5"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type Models:Message}">
+                    <CustomControls:ChatMessageControl 
+                        MessageTimestamp="{Binding Timestamp}"
+                        MessageSender="{Binding Sender}"
+                        MessageBody="{Binding Text}"
+                        Background="#ffefd9"
+                        Margin="5 1"
+                        Width="auto"
+                        Padding="15 5"/>
+                </DataTemplate>
+
+
+            </ItemsControl.Resources>
+        </ItemsControl>
+
+        <TextBox Grid.Row="2" FontSize="20" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>    
+    
+</UserControl>
