@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using SpeechBubble.Common.Requests;
 using SpeechBubble.Common.Responses;
 using SpeechBubble.Server.Models;
@@ -29,15 +30,13 @@ namespace SpeechBubble.Server.Controllers
 
             var loginResult = await _authService.SignInAsync(request.Email, password);
 
-            if (loginResult.Succeeded)
-            {                
-                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
-                string jwtToken = await _authService.GenerateJWTToken(user.UserName, request.Email);
-                                
-                return new JsonResult(new AuthenticationResponse { Success = true, token = jwtToken });
-            }
+            if(loginResult.Succeeded == false)
+                return new JsonResult(new AuthenticationResponse { success = false });
 
-            return new JsonResult(new AuthenticationResponse { Success = false });
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            string jwtToken = await _authService.GenerateJWTToken(user.UserName, request.Email);
+
+            return new JsonResult(new AuthenticationResponse { success = true, token = jwtToken });
         }
 
         [HttpPost("Register")]
@@ -48,7 +47,9 @@ namespace SpeechBubble.Server.Controllers
             if (result.Succeeded)
                 return Ok();
 
-            return BadRequest(string.Join(Environment.NewLine, result.Errors.Select(e => e.Description)));
+            //string.Join(Environment.NewLine, result.Errors.Select(e => e.Description))
+
+            return BadRequest();
         }
     }
 }

@@ -4,6 +4,7 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net7.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 
@@ -20,11 +21,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\SpeechBubble.Client.CustomControls\SpeechBubble.Client.CustomControls.csproj" />
 	  <ProjectReference Include="..\SpeechBubble.Common\SpeechBubble.Common.csproj" />
-	</ItemGroup>
-
-
-	<ItemGroup>
-	  <Folder Include="Services\" />
 	</ItemGroup>
 
 

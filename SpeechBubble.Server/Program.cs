@@ -1,5 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +24,8 @@ builder.Services.AddResponseCompression(options =>
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
 });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) .AddCookie();
+
 // Database
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=DESKTOP-5GKRTTK\\SQLEXPRESS;Database=Chat;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"));
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
@@ -44,7 +46,7 @@ builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    
+
 }).AddJwtBearer(config =>
 {
     config.Events = new JwtBearerEvents
@@ -103,6 +105,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.MapHub<ChatHub>("/chathub");
+app.MapHub<ChatHub>("/chathub/{roomId}");
 
 app.Run();

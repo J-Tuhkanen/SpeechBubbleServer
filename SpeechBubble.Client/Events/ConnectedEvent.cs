@@ -13,7 +13,15 @@ namespace SpeechBubble.Client.Events
 
     public class ConnectedEventArgs
     {
-        public string ServerUrl { get; set; }
-        public string AccessToken { get; internal set; }
+        public IEnumerable<string> RoomsIdCollection { get; set; }
+        public string ServerUrl { get; set; } = null!;
+        public string AccessToken { get; internal set; } = null!;
+
+        public ConnectedEventArgs(IEnumerable<string> rooms, string serverUrl, string accessToken)
+        {
+            RoomsIdCollection = rooms;
+            ServerUrl = serverUrl;
+            AccessToken = accessToken;
+        }
     }
 }

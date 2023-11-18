@@ -14,20 +14,17 @@ namespace SpeechBubble.Client.Operations
     {
         private string _loginUrl = _baseApiUrl + "Authentication/Login";
 
-        public async Task<Tuple<bool, string>> LoginAsync(string username, string password)
+        public async Task<AuthenticationResponse> LoginAsync(string username, string password)
         {
             var response = await PostAsync(_loginUrl, JsonSerializer.Serialize(new SigninRequest { Email = username, Password = password }));
         
-            if(response.IsSuccessStatusCode)
+            if(response.IsSuccessStatusCode == false)
             {
-                var juttu = await response.Content.ReadAsStringAsync();
-
-                var responseObject = JsonSerializer.Deserialize<AuthenticationResponse>(juttu);
-
-                return Tuple.Create<bool, string>(true, responseObject.token);
+                new AuthenticationResponse { success = false };
             }
-
-            return Tuple.Create<bool, string>(false, null);
+                
+            var resonseMessage = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<AuthenticationResponse>(resonseMessage);
         }
     }
 }

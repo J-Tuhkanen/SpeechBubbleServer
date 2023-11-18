@@ -9,11 +9,11 @@ namespace SpeechBubble.Client.Helpers
 {
     public static class DispatcherHelper
     {
-        public static Dispatcher UIDispatcher { get; private set; }
+        public static Dispatcher? UIDispatcher { get; private set; }
 
         public static void Initialize()
         {
-            if (UIDispatcher != null && UIDispatcher.Thread.IsAlive)
+            if (UIDispatcher?.Thread.IsAlive ?? false)
                 return;
 
             UIDispatcher = Dispatcher.CurrentDispatcher;

@@ -17,11 +17,11 @@ namespace SpeechBubble.Server.Hubs
             _userManager = userManager;
         }
 
-        public async Task SendMessageAllAsync(string message)
+        public async Task SendMessageAllAsync(string roomId, string message)
         {
-            var user = await _userManager.GetUserAsync(Context.User);
+            User user = await _userManager.GetUserAsync(Context.User);
 
-            await Clients.All.SendAsync("ReceiveMessage", new Message { Sender = user.DisplayName, Content = message });
+            await Clients.Group(roomId).SendAsync("ReceiveMessage", new Message { Content = message, Sender = user.UserName });
 
             Console.WriteLine($"{user.DisplayName}: {message}");
         }
@@ -29,14 +29,20 @@ namespace SpeechBubble.Server.Hubs
         public override async Task OnConnectedAsync()
         {
             var user = await _userManager.GetUserAsync(Context.User);
-
-            Console.WriteLine($"{user.DisplayName}: Connected");
-            //await Clients.All.SendAsync("ReceiveMessage", new Message { Sender });
+            
+            if(Context.GetHttpContext()?.GetRouteValue("roomId") is string roomId && string.IsNullOrWhiteSpace(roomId) == false) 
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
+                await base.OnConnectedAsync();
+                
+                Console.WriteLine($"{user.DisplayName}: Connected to room {roomId}");
+            }
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var user = await _userManager.GetUserAsync(Context.User);
+            await base.OnDisconnectedAsync(exception);
 
             Console.WriteLine($"{user.DisplayName}: Disconnected");
         }

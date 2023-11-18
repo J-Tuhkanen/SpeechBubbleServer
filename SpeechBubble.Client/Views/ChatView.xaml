@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Models="clr-namespace:SpeechBubble.Client.Models"
-             xmlns:CustomControls="clr-namespace:SpeechBubble.Client.CustomControls;assembly=SpeechBubble.Client.CustomControls"
+             xmlns:CustomControls="clr-namespace:SpeechBubble.Client.CustomControls;assembly=SpeechBubble.Client.CustomControls" 
+             xmlns:viewmodels="clr-namespace:SpeechBubble.Client.ViewModels" xmlns:views="clr-namespace:SpeechBubble.Client.Views"
+             d:DataContext="{d:DesignInstance Type=viewmodels:ChatViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -16,24 +18,24 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <DockPanel>
-            <Menu>
-                <MenuItem Header="Connection">
-                    <MenuItem Header="Disconnect" Command="{Binding DisconnectCommand}"/>
-                </MenuItem>
-            </Menu>
-        </DockPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <ItemsControl ItemsSource="{Binding ChatMessages}" Grid.Row="1">
+        <views:RoomList DataContext="{Binding RoomListViewModel}"/>
+
+        <ItemsControl DataContext="{Binding CurrentChatRoomViewModel, UpdateSourceTrigger=PropertyChanged}" 
+                      ItemsSource="{Binding Messages}" 
+                      Grid.Column="1">
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel/>
+                    <VirtualizingStackPanel CanVerticallyScroll="True"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.Resources>
@@ -57,11 +59,10 @@
                         Padding="15 5"/>
                 </DataTemplate>
 
-
             </ItemsControl.Resources>
         </ItemsControl>
 
-        <TextBox Grid.Row="2" FontSize="20" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" FontSize="20" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>    
     
 </UserControl>
