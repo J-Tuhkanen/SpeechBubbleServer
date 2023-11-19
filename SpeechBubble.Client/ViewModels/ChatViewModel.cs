@@ -15,11 +15,26 @@ namespace SpeechBubble.Client.ViewModels
     {
         private IEventAggregator _eventAggregator;
         private readonly IChatService _chatService;
-
+        private bool isMessageTextBoxEnabled;
         private string _message = string.Empty;
+        private ChatRoomViewModel _currentChatRoomViewModel = null!;
 
-        public ChatRoomViewModel CurrentChatRoomViewModel { get; private set; } = null!;
+        public ChatRoomViewModel CurrentChatRoomViewModel 
+        { 
+            get => _currentChatRoomViewModel; 
+            private set
+            {
+                _currentChatRoomViewModel = value;
+                HasChatRoomOpen = value != null;
+            }
+        }
         public RoomListViewModel RoomListViewModel { get; init; }
+
+        public bool HasChatRoomOpen 
+        { 
+            get => isMessageTextBoxEnabled; 
+            private set => Set(ref isMessageTextBoxEnabled, value); 
+        }
 
         public string Message
         {
@@ -53,6 +68,8 @@ namespace SpeechBubble.Client.ViewModels
         {
             if(CurrentChatRoomViewModel != null)
                 _chatService.SendMessage(CurrentChatRoomViewModel, Message);
+
+            Message = string.Empty;
         }
     }
 }

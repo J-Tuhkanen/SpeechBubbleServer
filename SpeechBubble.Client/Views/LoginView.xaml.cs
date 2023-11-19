@@ -22,11 +22,29 @@ namespace SpeechBubble.Client.Views
     /// </summary>
     public partial class LoginView : UserControl
     {
+        public LoginViewModel ViewModel { get; private set; }
+
         public LoginView()
         {
             InitializeComponent();
-
+            
             KeyUp += OnKeyUp;
+            DataContextChanged += LoginView_DataContextChanged;            
+        }
+
+        private void LoginView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {            
+            if(DataContext != null)
+            {
+                ViewModel = (LoginViewModel)DataContext;
+                ViewModel.OnClearForm += ViewModel_OnClearForm;
+            }
+        }
+
+        private void ViewModel_OnClearForm(object sender)
+        {
+            email_box.Text = string.Empty;
+            password_box.Password = string.Empty;
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
@@ -34,12 +52,12 @@ namespace SpeechBubble.Client.Views
             var key = e.Key;
 
             if(key == Key.Enter)
-                ((LoginViewModel)DataContext).LoginCommand.Execute(null);
+                ViewModel.LoginCommand.Execute(null);
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            ((LoginViewModel)DataContext).Password = ((PasswordBox)sender).SecurePassword;
+            ViewModel.Password = ((PasswordBox)sender).SecurePassword;
         }
     }
 }

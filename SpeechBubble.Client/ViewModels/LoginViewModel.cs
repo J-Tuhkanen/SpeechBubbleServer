@@ -20,8 +20,8 @@ namespace SpeechBubble.Client.ViewModels
         private AuthorizationOperations _authorizationOperations = new AuthorizationOperations();
         private readonly IEventAggregator _eventAggregator;
         private const string _serverAddress = "https://localhost:7093/chathub";
-        private string _email = "janne.tuhkanen@hotmail.com";
-        private SecureString _password;
+        private string _email = string.Empty;
+        private SecureString _password = null!;
         private bool _isConneting;
 
         public string Email 
@@ -39,7 +39,11 @@ namespace SpeechBubble.Client.ViewModels
         public bool IsConnecting { get => _isConneting; set => Set(ref _isConneting, value); }
 
         public ICommand LoginCommand { get; }
-        public ChatViewModel ChatViewModel { get; }
+        public ChatViewModel ChatViewModel { get; } = null!;
+
+        public delegate void ClearFormHandler(object sender);
+        public event ClearFormHandler OnClearForm = null!;
+
 
         public LoginViewModel(IEventAggregator eventAggregator) 
         {
@@ -60,12 +64,7 @@ namespace SpeechBubble.Client.ViewModels
                     _eventAggregator.GetEvent<ConnectedEvent>().Publish(new ConnectedEventArgs (loginResponse.rooms, _serverAddress, loginResponse.token));
                 
                 else
-                {
-                    Email = string.Empty;
-                    Password = new SecureString();
-
                     throw new Exception("Error authentication to chat servers.");
-                }
             }
             catch (Exception e)
             {
@@ -73,6 +72,7 @@ namespace SpeechBubble.Client.ViewModels
             }
             finally
             {
+                OnClearForm.Invoke(this);
                 IsConnecting = false;
             }
         }

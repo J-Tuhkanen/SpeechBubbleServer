@@ -39,12 +39,12 @@
 
             <StackPanel Style="{DynamicResource FormFieldGroup}">                
                 <TextBlock Text="Email"/>
-                <TextBox Text="{Binding Email}"/>
+                <TextBox x:Name="email_box" Text="{Binding Email}"/>
             </StackPanel>
 
             <StackPanel Style="{DynamicResource FormFieldGroup}">
                 <TextBlock Text="Password"/>
-                <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"/>
+                <PasswordBox x:Name="password_box" PasswordChanged="PasswordBox_PasswordChanged"/>
             </StackPanel>
 
             <StackPanel Style="{DynamicResource FormFieldGroup}">
