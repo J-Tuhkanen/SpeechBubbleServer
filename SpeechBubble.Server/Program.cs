@@ -27,7 +27,7 @@ builder.Services.AddResponseCompression(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) .AddCookie();
 
 // Database
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=DESKTOP-5GKRTTK\\SQLEXPRESS;Database=Chat;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=GM05NRB0\\SQLEXPRESS;Database=Chat;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"));
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
