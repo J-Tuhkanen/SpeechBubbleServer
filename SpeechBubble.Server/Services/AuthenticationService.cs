@@ -49,14 +49,12 @@ namespace SpeechBubble.Server.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("5ur04327154k3284pok5dh34851umf134+0658324905ds232103495vum98034u589d34lu583421k+u589sd234u53210dlk5u90231s4u59+3l4218590+d34f"));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var securityToken = new JwtSecurityToken(
+            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
               null,
               null,
               claims,
               expires: DateTime.UtcNow.AddHours(3),
-              signingCredentials: signIn);
-
-            return new JwtSecurityTokenHandler().WriteToken(securityToken);
+              signingCredentials: signIn));
         }
 
         public async Task<IdentityResult> Register(string email, string password, string username)

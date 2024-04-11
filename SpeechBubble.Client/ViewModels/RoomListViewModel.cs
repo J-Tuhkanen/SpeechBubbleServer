@@ -15,10 +15,10 @@ namespace SpeechBubble.Client.ViewModels
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly OpenRoomEvent _openRoomEvent;
-        private ObservableCollection<string> _roomIdCollection = new();
+        private ObservableCollection<Guid> _roomIdCollection = new();
 
         public ICommand OpenRoomCommand { get; }
-        public IEnumerable<string> RoomIdCollection => _roomIdCollection;
+        public IEnumerable<Guid> RoomIdCollection => _roomIdCollection;
 
         public RoomListViewModel(IEventAggregator eventAggregator)
         {
@@ -26,17 +26,22 @@ namespace SpeechBubble.Client.ViewModels
 
             _eventAggregator.GetEvent<ConnectedEvent>().Subscribe(OnConnectedEvent);
             _openRoomEvent = _eventAggregator.GetEvent<OpenRoomEvent>();
-            OpenRoomCommand = new DelegateCommand<string>(OnOpenRoomCommandExecute);
+            OpenRoomCommand = new DelegateCommand<Guid?>(OnOpenRoomCommandExecute);
         }
 
-        private void OnOpenRoomCommandExecute(string roomId)
-            => _openRoomEvent.Publish(new OpenRoomEventArgs { RoomId = roomId });
+        private void OnOpenRoomCommandExecute(Guid? roomId)
+        {
+            if (roomId.HasValue)
+            {
+                _openRoomEvent.Publish(new OpenRoomEventArgs { RoomId = roomId.Value });
+            }
+        }
         
         private void OnConnectedEvent(ConnectedEventArgs args)
         {
             Helpers.DispatcherHelper.RunAsync(async () =>
             {
-                _roomIdCollection = new ObservableCollection<string>(args.RoomsIdCollection);
+                _roomIdCollection = new ObservableCollection<Guid>(args.RoomsIdCollection);
             });
         }
     }

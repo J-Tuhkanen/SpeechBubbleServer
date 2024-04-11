@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
@@ -16,11 +17,13 @@ namespace SpeechBubble.Server.Controllers
     {
         private readonly IAuthenticationService _authService;
         private readonly UserManager<User> _userManager;
+        private readonly IRoomService _roomService;
 
-        public AuthenticationController(IAuthenticationService authService, UserManager<User> userManager)
+        public AuthenticationController(IAuthenticationService authService, UserManager<User> userManager, IRoomService roomService)
         {
             _authService = authService;
             _userManager = userManager;
+            _roomService = roomService;
         }
 
         [HttpPost("Login")]
@@ -36,7 +39,9 @@ namespace SpeechBubble.Server.Controllers
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
             string jwtToken = await _authService.GenerateJWTToken(user.UserName, request.Email);
 
-            return new JsonResult(new AuthenticationResponse { success = true, token = jwtToken });
+            var rooms = await _roomService.GetRooms();
+
+            return new JsonResult(new AuthenticationResponse { success = true, token = jwtToken, rooms = rooms.Select(r => r.Id) });
         }
 
         [HttpPost("Register")]

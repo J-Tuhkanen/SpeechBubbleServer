@@ -2,7 +2,9 @@
 using Prism.Events;
 using SpeechBubble.Client.Events;
 using SpeechBubble.Client.Models;
+using SpeechBubble.Client.Operations;
 using SpeechBubble.Client.Services.Base;
+using SpeechBubble.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -17,7 +19,7 @@ namespace SpeechBubble.Client.Services
 
         public async Task JoinServerRoomsAsync(ConnectedEventArgs args)
         {
-            foreach (string roomId in args.RoomsIdCollection)
+            foreach (Guid roomId in args.RoomsIdCollection)
             {
                 var connection = new HubConnectionBuilder()
                     .WithUrl($"{args.ServerUrl}/{roomId}", configureHttpConnection: options =>
@@ -27,14 +29,15 @@ namespace SpeechBubble.Client.Services
                     .WithAutomaticReconnect()
                     .Build();
 
-                ChatRooms.Add(new ChatRoomViewModel(roomId, connection));
+                var roomOperations = new RoomOperations();                
+
+                var response = await roomOperations.GetMessagesAsync(roomId.ToString());
+                ChatRooms.Add(new ChatRoomViewModel(roomId, connection, response.Messages.Select(message => new Models.Message(message.Content, message.Sender, DateTime.Now))));
                 await connection.StartAsync();
             }
         }
-
-        public ChatRoomViewModel GetRoomById(string id)
-            => ChatRooms.First(r => r.RoomId == id);
-
+        public ChatRoomViewModel GetRoomById(Guid id)
+        => ChatRooms.First(r => r.RoomId == id);
         public async void SendMessage(ChatRoomViewModel room, string message)
             => await room.SendMessageAsync(message);
     }

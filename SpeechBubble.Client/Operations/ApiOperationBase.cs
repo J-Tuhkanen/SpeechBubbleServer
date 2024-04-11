@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Net.Http.Json;
 
 namespace SpeechBubble.Client.Operations
 {
@@ -34,6 +35,28 @@ namespace SpeechBubble.Client.Operations
                 StringContent content = new(jsonContent, Encoding.UTF8, "application/json");
 
                 response = await httpClient.PostAsync(requestUri, content).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                response = new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    ReasonPhrase = ex.Message
+                };
+            }
+
+            return response;
+        }
+
+        protected async Task<HttpResponseMessage> GetAsync(string requestUri, string jwtAccessToken = null)
+        {
+            HttpResponseMessage response = null;
+
+            try
+            {
+                using var httpClient = CreateClient(jwtAccessToken);
+
+                response = await httpClient.GetAsync(requestUri).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

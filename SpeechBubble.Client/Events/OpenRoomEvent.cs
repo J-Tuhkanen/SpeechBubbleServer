@@ -14,6 +14,6 @@ namespace SpeechBubble.Client.Events
 
     public class OpenRoomEventArgs
     {
-        public string RoomId { get; set; }
+        public Guid RoomId { get; set; }
     }
 }

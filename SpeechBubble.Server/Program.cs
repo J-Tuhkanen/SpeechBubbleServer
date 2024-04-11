@@ -27,8 +27,10 @@ builder.Services.AddResponseCompression(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) .AddCookie();
 
 // Database
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=GM05NRB0\\SQLEXPRESS;Database=Chat;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=GM05NRB0;Database=Speechbubble;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"));
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
+builder.Services.AddTransient<IRoomService, RoomService>();
+builder.Services.AddTransient<IMessageService, MessageService>();
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
@@ -72,7 +74,7 @@ builder.Services.AddAuthentication(x =>
             // If the request is for our hub...
             var path = context.HttpContext.Request.Path;
 
-            if (authHeaders.Any() && (path.StartsWithSegments("/chathub")))
+            if (authHeaders.Any() && path.StartsWithSegments("/chathub"))
             {
                 // Read the token out of the query string
                 context.Token = authHeaders.First().Split(" ").Last();

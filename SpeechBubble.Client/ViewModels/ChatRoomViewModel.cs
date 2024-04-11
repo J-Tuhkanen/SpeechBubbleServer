@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Prism.Events;
 using SpeechBubble.Client.Events;
+using SpeechBubble.Client.Operations;
 using SpeechBubble.Client.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,18 @@ namespace SpeechBubble.Client.Models
         private ObservableCollection<ChatContent> _messages { get; } = new();
         private HubConnection _connection { get; init; }
 
-        public string RoomId { get; init; }
+        public Guid RoomId { get; init; }
         public IEnumerable<ChatContent> Messages => _messages;
 
-        public ChatRoomViewModel(string roomId, HubConnection connection)
+        public ChatRoomViewModel(Guid roomId, HubConnection connection, IEnumerable<Message> messages)
         {
             RoomId = roomId;
             _connection = connection;
+
+            foreach(var msg in messages ?? new List<Message>())
+            {
+                _messages.Add(msg);
+            }
 
             _connection.On<Common.Data.Message>("ReceiveMessage", async (e) =>
             {
