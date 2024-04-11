@@ -34,10 +34,8 @@ namespace SpeechBubble.Server.Services
             return result;
         }
 
-        public async Task<string> GenerateJWTToken(string username, string email)
+        public string GenerateJWTToken(User user)
         {
-            User user = (await _accountDbContext.Users.ToListAsync()).FirstOrDefault(u => u.UserName == username);
-
             var claims = new[] {
                         new Claim(ClaimTypes.NameIdentifier, user.Id),
                         new Claim(JwtRegisteredClaimNames.UniqueName, user.Id),

@@ -32,12 +32,14 @@ namespace SpeechBubble.Client.Services
                 var roomOperations = new RoomOperations();                
 
                 var response = await roomOperations.GetMessagesAsync(roomId.ToString());
-                ChatRooms.Add(new ChatRoomViewModel(roomId, connection, response.Messages.Select(message => new Models.Message(message.Content, message.Sender, DateTime.Now))));
+                ChatRooms.Add(new ChatRoomViewModel(roomId, connection, response.Messages.Select(message => new Models.Message(message.Content, message.Sender, message.Timestamp))));
                 await connection.StartAsync();
             }
         }
+        
         public ChatRoomViewModel GetRoomById(Guid id)
-        => ChatRooms.First(r => r.RoomId == id);
+            => ChatRooms.First(r => r.RoomId == id);
+
         public async void SendMessage(ChatRoomViewModel room, string message)
             => await room.SendMessageAsync(message);
     }

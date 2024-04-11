@@ -36,8 +36,8 @@ namespace SpeechBubble.Server.Controllers
             if(loginResult.Succeeded == false)
                 return new JsonResult(new AuthenticationResponse { success = false });
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
-            string jwtToken = await _authService.GenerateJWTToken(user.UserName, request.Email);
+            User user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            string jwtToken = _authService.GenerateJWTToken(user);
 
             var rooms = await _roomService.GetRooms();
 
@@ -51,8 +51,6 @@ namespace SpeechBubble.Server.Controllers
 
             if (result.Succeeded)
                 return Ok();
-
-            //string.Join(Environment.NewLine, result.Errors.Select(e => e.Description))
 
             return BadRequest();
         }

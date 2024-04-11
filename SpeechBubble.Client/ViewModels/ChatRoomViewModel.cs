@@ -30,7 +30,7 @@ namespace SpeechBubble.Client.Models
 
             _connection.On<Common.Data.Message>("ReceiveMessage", async (e) =>
             {
-                await Helpers.DispatcherHelper.RunAsync(() => _messages.Add(new Message(e.Content, e.Sender, DateTime.Now)));
+                await Helpers.DispatcherHelper.RunAsync(() => _messages.Add(new Message(e.Content, e.Sender, e.Timestamp)));
             });
         }
 

@@ -5,7 +5,7 @@ namespace SpeechBubble.Server.Services
 {
     public interface IAuthenticationService
     {
-        Task<string> GenerateJWTToken(string username, string email);
+        string GenerateJWTToken(User user);
         Task<User> GetByIdAsync(string userId);
         Task<IdentityResult> Register(string email, string password, string username);
         Task<SignInResult> SignInAsync(string email, string password);
