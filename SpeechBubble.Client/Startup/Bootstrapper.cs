@@ -5,8 +5,6 @@ using SpeechBubble.Client.Services;
 using SpeechBubble.Client.Services.Base;
 using SpeechBubble.Client.ViewModels;
 using System;
-using System.Linq;
-using System.Reflection;
 
 namespace SpeechBubble.Client.Startup
 {

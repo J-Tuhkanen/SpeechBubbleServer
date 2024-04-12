@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
-using Prism.Events;
 using SpeechBubble.Client.Events;
 using SpeechBubble.Client.Models;
 using SpeechBubble.Client.Operations;
 using SpeechBubble.Client.Services.Base;
-using SpeechBubble.Common.Data;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 

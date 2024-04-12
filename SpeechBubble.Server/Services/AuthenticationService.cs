@@ -13,13 +13,11 @@ namespace SpeechBubble.Server.Services
     {
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
-        private ApplicationDbContext _accountDbContext;
 
-        public AuthenticationService(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationDbContext accountDbContext)
+        public AuthenticationService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _accountDbContext = accountDbContext;
         }
 
         public async Task<User> GetByIdAsync(string userId)
@@ -36,13 +34,15 @@ namespace SpeechBubble.Server.Services
 
         public string GenerateJWTToken(User user)
         {
-            var claims = new[] {
-                        new Claim(ClaimTypes.NameIdentifier, user.Id),
-                        new Claim(JwtRegisteredClaimNames.UniqueName, user.Id),
-                        new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, UnixTimeHelper.ToUnixTimeSeconds(DateTime.Now).ToString(), ClaimValueTypes.Integer64),
-                        new Claim("UserId", user.Id.ToString())};
+            var claims = new[] 
+            {
+                new Claim("UserId", user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, UnixTimeHelper.ToUnixTimeSeconds(DateTime.Now).ToString(), ClaimValueTypes.Integer64),
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("5ur04327154k3284pok5dh34851umf134+0658324905ds232103495vum98034u589d34lu583421k+u589sd234u53210dlk5u90231s4u59+3l4218590+d34f"));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

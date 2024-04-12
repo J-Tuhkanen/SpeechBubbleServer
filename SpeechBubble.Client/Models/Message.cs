@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpeechBubble.Client.Models
 {
+    // TODO: Use common project message class
     public class Message : ChatContent
     {
         public string Sender { get; set; }

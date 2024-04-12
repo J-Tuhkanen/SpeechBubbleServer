@@ -9,7 +9,7 @@ using SpeechBubble.Server.Models;
 
 namespace SpeechBubble.Server.Hubs
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class ChatHub : Hub
     {
         private readonly UserManager<User> _userManager;

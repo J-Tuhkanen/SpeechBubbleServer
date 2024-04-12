@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
-using Prism.Events;
-using SpeechBubble.Client.Events;
-using SpeechBubble.Client.Operations;
 using SpeechBubble.Client.ViewModels.Base;
 using System;
 using System.Collections.Generic;
